@@ -1,7 +1,8 @@
 <?php
 
-namespace App;
+namespace Modules\User\Entities;
 
+use Modules\Account\Entities\Account;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -36,4 +37,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * A user belongs to many accounts
+     */
+    public function accounts()
+    {
+        return $this->belongsToMany(Account::class);
+    }
 }

@@ -1,9 +1,13 @@
 <?php
 
+namespace Modules\User\Database\Seeders;
+
 use Illuminate\Database\Seeder;
 use Modules\User\Entities\User;
+use Illuminate\Support\Facades\App;
+use Illuminate\Database\Eloquent\Model;
 
-class UsersTableSeeder extends Seeder
+class UserDatabaseSeeder extends Seeder
 {
     /**
      * Run the database seeds.

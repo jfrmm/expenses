@@ -1,98 +1,31 @@
 <?php
+
 namespace Modules\Account\Repositories;
 
-use App\Helpers\BaseRepository\Eloquent\BaseRepository;
-use Illuminate\Http\Request;
+use App\Repositories\Repository;
 use Modules\Account\Entities\Movement;
-use Modules\Account\Filters\MovementSort;
 
-class MovementRepository extends BaseRepository
+class MovementRepository extends Repository
 {
     /**
-     * Specify Model class name
-     *
-     * @return mixed
+     * Constructor
      */
-    public function model()
+    public function __construct()
     {
-        return Movement::class;
+        parent::__construct(new Movement());
     }
 
     /**
-     * Get all the items
+     * Get all Movements of given Account
      *
-     * @param MovementSort $sort
+     * @param int $accountId
      *
-     * @return Movement
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
-    public function getAll(MovementSort $sort)
+    public function getAllOfAccount($accountId)
     {
-        return $this->all($sort);
-    }
-
-    /**
-     * Create or update an item
-     *
-     * @param Request $request
-     * @param Movement $movement
-     *
-     * @return Movement
-     */
-    public function createOrUpdate(Request $request, Movement $movement = null)
-    {
-        if (is_null($movement)) {
-            /**
-             * Let's try and create
-             */
-
-            $movement = $this->create($request);
-        } else {
-            /**
-             * Let's try and update
-             */
-
-            $movement = $this->update($request, $movement->id);
-        }
-
-        return $movement;
-    }
-
-    /**
-     * Get an item
-     *
-     * @param Request $request
-     * @param uuid $id
-     *
-     * @return Movement
-     */
-    public function getOne(Request $request, $id)
-    {
-        return $this->find($request, $id);
-    }
-
-    /**
-     * Get an item, trashed included
-     *
-     * @param Request $request
-     * @param uuid $id
-     *
-     * @return Movement
-     */
-    public function getOneWithTrashed(Request $request, $id)
-    {
-        return $this->find($request, $id, ['*'], [], true);
-    }
-
-    /**
-     * Delete an item
-     *
-     * @param Request $request
-     * @param uuid $id
-     *
-     * @return bool
-     */
-    public function deleteOne(Request $request, $id)
-    {
-        $this->delete($request, $id);
+        return Movement::whereHas('account', function ($query) use ($accountId) {
+            $query->where('id', $accountId);
+        })->get();
     }
 }

@@ -20,7 +20,9 @@
             <td>{{ $account->iban }}</td>
             <td>{{ $account->owner->name }}</td>
             <td>
-            <a href="/acccounts/{{ $account->id }}/movements">Movements</a></td>
+                <a href="{{ route('account.accounts.edit', ['account' => $account]) }}">Edit</a>
+                <a href="{{ route('account.accounts.movements.index', ['account' => $account]) }}">Movements</a>
+            </td>
         </tr>
         @endforeach
     </tbody>

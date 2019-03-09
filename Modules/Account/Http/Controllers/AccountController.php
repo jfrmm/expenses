@@ -4,9 +4,8 @@ namespace Modules\Account\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-// use Illuminate\Routing\Controller;
 use App\Http\Controllers\Controller;
-use Modules\Account\Filters\AccountSort;
+use Modules\Account\Entities\Account;
 use Modules\Account\Repositories\AccountRepository;
 
 class AccountController extends Controller
@@ -14,14 +13,14 @@ class AccountController extends Controller
     /**
      * @var AccountRepository
      */
-    private $accountRepository;
+    private $accounts;
 
     /**
      * @param AccountRepository $accountRepository
      */
     public function __construct()
     {
-        $this->accountRepository = new AccountRepository();
+        $this->accounts = new AccountRepository();
     }
 
     /**
@@ -29,13 +28,11 @@ class AccountController extends Controller
      *
      * @return Response
      */
-    public function index(AccountSort $sort)
+    public function index()
     {
-        $accounts = $this->accountRepository->with('owner');
+        $accounts = $this->accounts->getAllWithOwner();
 
-        // dd($accounts->get());
-
-        return view('account::accounts.index', ['accounts' => $accounts->get()]);
+        return view('account::accounts.index', ['accounts' => $accounts]);
     }
 
     /**
@@ -73,19 +70,28 @@ class AccountController extends Controller
      *
      * @return Response
      */
-    public function edit()
+    public function edit(Account $account)
     {
-        return view('account::accounts.edit');
+        return view('account::accounts.edit', ['account' => $account]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  Request $request
-     * @return Response
+     * @param Request $request
+     * @param Account $account
+     *
+     * @return void
      */
-    public function update(Request $request)
+    public function update(Request $request, Account $account)
     {
+        $validatedData = $this->accounts->validateUpdate($request);
+
+        $this->accounts->update($validatedData, $account->id);
+
+        return redirect()
+                ->route('account.accounts.index')
+                ->with('status', 'Account updated successfuly.');
     }
 
     /**

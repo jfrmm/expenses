@@ -28,17 +28,43 @@ class Repository
     }
 
     /**
-     * Update a record in the database for the given ID
+     * Create a record in the database
+     *
+     * @param array $data
+     *
+     * @return mixed
+     */
+    public function create(array $data)
+    {
+        return $this->model->create($data);
+    }
+
+    /**
+     * Update a record in the database
      *
      * @param array $data
      * @param int $id
      *
-     * @return int
+     * @return bool
      */
     public function update(array $data, $id)
     {
         $record = $this->model->find($id);
 
         return $record->update($data);
+    }
+
+    /**
+     * Delete a record in the database
+     *
+     * @param int $id
+     *
+     * @return bool
+     */
+    public function delete($id)
+    {
+        $record = $this->model->find($id);
+
+        return $record->delete();
     }
 }

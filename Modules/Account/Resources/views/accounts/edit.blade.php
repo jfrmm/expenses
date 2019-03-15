@@ -12,7 +12,7 @@
     </div>
 
     <div class="form__errors">
-        @component('forms.errors') @endcomponent
+        @component('alerts.errors') @endcomponent
     </div>
 
     {!! Form::submit('Update', ['class' => 'btn btn-primary']) !!} {!! Form::close() !!}

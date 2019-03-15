@@ -11,7 +11,7 @@
             </div>
         @endif
 
-        You are logged in!
+        You are logged in! Check the <a href="{{ route('account.accounts.index') }}">accounts.</a>
     </div>
 </div>
 @endsection

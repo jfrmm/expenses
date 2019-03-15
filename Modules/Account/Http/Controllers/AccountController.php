@@ -53,16 +53,19 @@ class AccountController extends Controller
      */
     public function store(Request $request)
     {
-    }
+        $validatedData = $this->accounts->validateCreate($request);
 
-    /**
-     * Show the specified resource.
-     *
-     * @return Response
-     */
-    public function show()
-    {
-        return view('account::accounts.show');
+        $success = $this->accounts->create($validatedData);
+
+        if ($success) {
+            return redirect()
+                ->route('account.accounts.index')
+                ->with('message', 'Account created successfuly.');
+        } else {
+            return redirect()
+                ->route('account.accounts.index')
+                ->with('message', 'Failed creating account.');
+        }
     }
 
     /**
@@ -87,11 +90,17 @@ class AccountController extends Controller
     {
         $validatedData = $this->accounts->validateUpdate($request);
 
-        $this->accounts->update($validatedData, $account->id);
+        $success = $this->accounts->update($validatedData, $account->id);
 
-        return redirect()
+        if ($success) {
+            return redirect()
                 ->route('account.accounts.index')
-                ->with('status', 'Account updated successfuly.');
+                ->with('message', 'Account updated successfuly.');
+        } else {
+            return redirect()
+                ->route('account.accounts.index')
+                ->with('message', 'Failed updating account.');
+        }
     }
 
     /**
@@ -99,7 +108,18 @@ class AccountController extends Controller
      *
      * @return Response
      */
-    public function destroy()
+    public function destroy(Account $account)
     {
+        $success = $this->accounts->delete($account->id);
+
+        if ($success) {
+            return redirect()
+                ->route('account.accounts.index')
+                ->with('message', 'Account deleted successfuly.');
+        } else {
+            return redirect()
+                ->route('account.accounts.index')
+                ->with('message', 'Failed deleting account.');
+        }
     }
 }

@@ -4,9 +4,9 @@ namespace Modules\Account\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 
-use Modules\Account\Entities\WithdrawalType;
+use Modules\Account\Entities\DebtType;
 
-class Withdrawal extends Model
+class Debt extends Model
 {
     protected $fillable = [
         'movement_id',
@@ -14,6 +14,6 @@ class Withdrawal extends Model
 
     public function type()
     {
-        return $this->hasOne(WithdrawalType::class);
+        return $this->hasOne(DebtType::class);
     }
 }

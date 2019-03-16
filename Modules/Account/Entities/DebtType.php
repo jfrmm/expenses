@@ -4,7 +4,7 @@ namespace Modules\Account\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 
-class WithdrawalType extends Model
+class DebtType extends Model
 {
     protected $fillable = [
         'name',

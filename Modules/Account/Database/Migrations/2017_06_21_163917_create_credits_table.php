@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDepositsTable extends Migration
+class CreateCreditsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,16 @@ class CreateDepositsTable extends Migration
      */
     public function up()
     {
-        Schema::create('deposits', function (Blueprint $table) {
+        Schema::create('credits', function (Blueprint $table) {
             $table->unsignedInteger('movement_id');
-            $table->unsignedInteger('deposit_type_id')->nullable();
+            $table->unsignedInteger('credit_type_id')->nullable();
 
             $table->timestamps();
             $table->softDeletes();
 
             $table->foreign('movement_id')->references('id')->on('movements')
                 ->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('deposit_type_id')->references('id')->on('deposit_types');
+            $table->foreign('credit_type_id')->references('id')->on('credit_types');
         });
     }
 
@@ -33,6 +33,6 @@ class CreateDepositsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('deposits');
+        Schema::dropIfExists('credits');
     }
 }

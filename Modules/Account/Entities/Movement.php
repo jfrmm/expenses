@@ -1,19 +1,17 @@
 <?php
 namespace Modules\Account\Entities;
 
-use App\Helpers\DedicatedFiltering\Searchable;
-use App\Helpers\DedicatedFiltering\Sortable;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Modules\Account\Entities\Deposit;
-use Modules\Account\Entities\Withdrawal;
 use Modules\User\Entities\User;
+use Modules\Account\Entities\Debt;
+use Modules\Account\Entities\Credit;
+use Illuminate\Database\Eloquent\Model;
+use App\Helpers\DedicatedFiltering\Sortable;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Helpers\DedicatedFiltering\Searchable;
 
 class Movement extends Model
 {
-    use SoftDeletes;
-    use Sortable;
-    use Searchable;
+    use SoftDeletes, Sortable, Searchable;
 
     /**
      * The attributes that are mass assignable.
@@ -43,11 +41,11 @@ class Movement extends Model
         parent::boot();
 
         static::created(function ($model) {
-            // create a withdrawal or deposit, depending on the movement
+            // create a Debt or Credit, depending on the Movement amount
             if ($model->amount < 0) {
-                Withdrawal::create(['movement_id' => $model->id]);
+                Debt::create(['movement_id' => $model->id]);
             } else {
-                Deposit::create(['movement_id' => $model->id]);
+                Credit::create(['movement_id' => $model->id]);
             }
         });
     }

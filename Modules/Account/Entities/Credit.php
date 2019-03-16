@@ -4,9 +4,9 @@ namespace Modules\Account\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 
-use Modules\Account\Entities\DepositType;
+use Modules\Account\Entities\CreditType;
 
-class Deposit extends Model
+class Credit extends Model
 {
     protected $fillable = [
         'movement_id',
@@ -14,6 +14,6 @@ class Deposit extends Model
 
     public function type()
     {
-        return $this->hasOne(DepositType::class);
+        return $this->hasOne(CreditType::class);
     }
 }

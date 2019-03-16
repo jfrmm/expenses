@@ -3,7 +3,6 @@
 namespace Modules\Account\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use Modules\Account\Entities\Account;
 use Modules\Account\Repositories\AccountRepository;
@@ -16,7 +15,7 @@ class AccountController extends Controller
     private $accounts;
 
     /**
-     * @param AccountRepository $accountRepository
+     * Constructor
      */
     public function __construct()
     {
@@ -26,7 +25,7 @@ class AccountController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Response
+     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
      */
     public function index()
     {
@@ -38,7 +37,7 @@ class AccountController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return Response
+     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
      */
     public function create()
     {
@@ -48,14 +47,15 @@ class AccountController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  Request $request
-     * @return Response
+     * @param Request $request
+     *
+     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
      */
     public function store(Request $request)
     {
         $validatedData = $this->accounts->validateCreate($request);
 
-        $success = $this->accounts->create($validatedData);
+        $success = $this->accounts->createWithOwner($validatedData);
 
         if ($success) {
             return redirect()
@@ -71,7 +71,9 @@ class AccountController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @return Response
+     * @param Account $account
+     *
+     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
      */
     public function edit(Account $account)
     {
@@ -84,7 +86,7 @@ class AccountController extends Controller
      * @param Request $request
      * @param Account $account
      *
-     * @return void
+     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
      */
     public function update(Request $request, Account $account)
     {
@@ -106,7 +108,9 @@ class AccountController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @return Response
+     * @param Account $account
+     *
+     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
      */
     public function destroy(Account $account)
     {

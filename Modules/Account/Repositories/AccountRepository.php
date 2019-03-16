@@ -44,8 +44,10 @@ class AccountRepository extends Repository
     {
         return $request->validate([
             'name' => 'required|string|max:191',
-            'iban' => 'required|string|size:25',
-            Rule::unique('accounts')->ignore($request->iban)
+            'iban' => [
+                'required|string|size:25',
+                Rule::unique('accounts')->ignore($request->iban)
+            ],
         ]);
     }
 
@@ -61,13 +63,13 @@ class AccountRepository extends Repository
 
     /**
      * Create an Account, with the owner being the
-     * currently logged in user
+     * currently logged in User
      *
      * @param array $data
      *
      * @return mixed
      */
-    public function create(array $data)
+    public function createWithOwner(array $data)
     {
         $data = array_merge($data, ['owner_id' => Auth::id()]);
 

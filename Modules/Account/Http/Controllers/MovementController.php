@@ -2,7 +2,10 @@
 
 namespace Modules\Account\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Modules\Account\Entities\Account;
+use Modules\Account\Entities\Movement;
 use Modules\Account\Repositories\MovementRepository;
 
 class MovementController extends Controller
@@ -13,7 +16,7 @@ class MovementController extends Controller
     private $movements;
 
     /**
-     * @param MovementRepository $movementRepository
+     * Constructor
      */
     public function __construct()
     {
@@ -23,14 +26,113 @@ class MovementController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param int $accountId
+     * @param Account $account
      *
      * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
      */
-    public function index($accountId)
+    public function index(Account $account)
     {
-        $movements = $this->movements->getAllOfAccount($accountId);
+        $movements = $this->movements->getAllOfAccount($account->id);
 
-        return view('account::accounts.movements.index', ['movements' => $movements]);
+        return view('account::accounts.movements.index', ['account' => $account, 'movements' => $movements]);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @param Account $account
+     *
+     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function create(Account $account)
+    {
+        return view('account::accounts.movements.create', ['account' => $account]);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param Request $request
+     * @param Account $account
+     *
+     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function store(Request $request, Account $account)
+    {
+        $validatedData = $this->movements->validateCreate($request);
+
+        $success = $this->movements->createForAccount($validatedData, $account);
+
+        if ($success) {
+            return redirect()
+                ->route('account.accounts.movements.index', ['account' => $account])
+                ->with('message', 'Movement created successfuly.');
+        } else {
+            return redirect()
+                ->route('account.accounts.movements.index', ['account' => $account])
+                ->with('message', 'Failed creating movement.');
+        }
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param Account $account
+     * @param Movement $movement
+     *
+     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function edit(Account $account, Movement $movement)
+    {
+        return view('account::accounts.movements.edit', ['account' => $account, 'movement' => $movement]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param Request $request
+     * @param Account $account
+     * @param Movement $movement
+     *
+     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function update(Request $request, Account $account, Movement $movement)
+    {
+        $validatedData = $this->movements->validateUpdate($request);
+
+        $success = $this->movements->update($validatedData, $movement->id);
+
+        if ($success) {
+            return redirect()
+                ->route('account.accounts.movements.index', ['account' => $account, 'movement' => $movement])
+                ->with('message', 'Movement updated successfuly.');
+        } else {
+            return redirect()
+                ->route('account.accounts.movements.index', ['account' => $account, 'movement' => $movement])
+                ->with('message', 'Failed updating movement.');
+        }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param Account $account
+     * @param Movement $movement
+     *
+     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function destroy(Account $account, Movement $movement)
+    {
+        $success = $this->movements->delete($movement->id);
+
+        if ($success) {
+            return redirect()
+                ->route('account.accounts.movements.index', ['account' => $account])
+                ->with('message', 'Movement deleted successfuly.');
+        } else {
+            return redirect()
+                ->route('account.accounts.movements.index', ['account' => $account])
+                ->with('message', 'Failed deleting movement.');
+        }
     }
 }

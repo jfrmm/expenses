@@ -1,7 +1,6 @@
 @extends('layouts.app')
 @section('content')
 
-
 <div class="row justify-content-between">
     <div class="col">
         <h1>Accounts</h1>
@@ -41,7 +40,7 @@
                         <i class="fas fa-edit"></i>
                     </a> {{-- Delete button --}}
                     <button type="button" class="btn btn-light btn-sm" data-toggle="modal" data-target="#deleteModal" data-id="{{ $account->id }}"
-                        data-subject="account {{ $account->name }}" data-route="{{ route('account.accounts.destroy', ['account' => $account->id]) }}">
+                        data-subject="account {{ $account->name }}" data-route="{{ route('account.accounts.destroy', ['account' => $account]) }}">
                         <i class="fas fa-trash"></i>
                     </button> {{-- Movements button --}}
                     <a class="btn btn-light btn-sm" role="button" href="{{ route('account.accounts.movements.index', ['account' => $account]) }}">

@@ -18,7 +18,6 @@ class CreateDebtsTable extends Migration
             $table->unsignedInteger('debt_type_id')->nullable();
 
             $table->timestamps();
-            $table->softDeletes();
 
             $table->foreign('movement_id')->references('id')->on('movements')
             ->onUpdate('cascade')->onDelete('cascade');

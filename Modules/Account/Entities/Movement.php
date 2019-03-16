@@ -48,10 +48,33 @@ class Movement extends Model
                 Credit::create(['movement_id' => $model->id]);
             }
         });
+
+        static::updated(function ($model) {
+            // update a Debt or Credit, depending on the Movement amount
+            if ($model->amount !== $model->getOriginal('amount') &&
+                 $model->amount * $model->getOriginal('amount') < 0) {
+                if ($model->amount < 0) {
+                    Credit::where('movement_id', $model->id)->delete();
+                    Debt::create(['movement_id' => $model->id]);
+                } else {
+                    Debt::where('movement_id', $model->id)->delete();
+                    Credit::create(['movement_id' => $model->id]);
+                }
+            }
+        });
+
+        static::deleted(function ($model) {
+            // delete a Debt or Credit, depending on the Movement amount
+            if ($model->amount < 0) {
+                Debt::where('movement_id', $model->id)->delete();
+            } else {
+                Credit::where('movement_id', $model->id)->delete();
+            }
+        });
     }
 
     /**
-     * A movement belongs to one account
+     * A Movement belongs to one account
      */
     public function account()
     {
@@ -59,7 +82,7 @@ class Movement extends Model
     }
 
     /**
-     * The movement's creator
+     * The Movement's creator
      */
     public function creator()
     {
@@ -67,7 +90,7 @@ class Movement extends Model
     }
 
     /**
-     * The movement's creditor
+     * The Movement's creditor
      */
     public function creditor()
     {

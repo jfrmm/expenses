@@ -3,7 +3,8 @@
 <h1>Accounts - Edit {{ $account->name }}</h1>
 
 <div class="form">
-    {!! Form::open(['route' => ['account.accounts.update', $account], 'method' => 'put']) !!} {!! Form::token() !!}
+    {!! Form::open(['route' => ['account.accounts.update', $account], 'method' => 'put']) !!} {!! Form::token() !!} {!! Form::hidden('id',
+    $account->id) !!}
     <div class="form-group">
         {!! Form::label('name', 'Name') !!} {!! Form::text('name', $account->name, ['class' => 'form-control']) !!}
     </div>

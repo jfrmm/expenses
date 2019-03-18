@@ -19,25 +19,32 @@ class AccountController extends Controller
      */
     public function __construct()
     {
+        parent::$model = new Account();
+
         $this->accounts = new AccountRepository();
     }
 
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
+     * @return \Illuminate\View\View
      */
     public function index()
     {
         $accounts = $this->accounts->getAllWithOwner();
 
-        return view('account::accounts.index', ['accounts' => $accounts]);
+        return view(
+            'account::accounts.index',
+            [
+                'accounts' => $accounts,
+            ]
+        );
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
+     * @return \Illuminate\View\View
      */
     public function create()
     {
@@ -49,23 +56,19 @@ class AccountController extends Controller
      *
      * @param Request $request
      *
-     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
         $validatedData = $this->accounts->validateCreate($request);
 
-        $success = $this->accounts->createWithOwner($validatedData);
+        $result = $this->accounts->createWithOwner($validatedData);
 
-        if ($success) {
-            return redirect()
-                ->route('account.accounts.index')
-                ->with('message', 'Account created successfuly.');
-        } else {
-            return redirect()
-                ->route('account.accounts.index')
-                ->with('message', 'Failed creating account.');
-        }
+        $success = $result ? true : false;
+
+        return redirect()
+            ->route('account.accounts.index')
+            ->with('message', self::getMessage('update', $success));
     }
 
     /**
@@ -73,11 +76,16 @@ class AccountController extends Controller
      *
      * @param Account $account
      *
-     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
+     * @return \Illuminate\View\View
      */
     public function edit(Account $account)
     {
-        return view('account::accounts.edit', ['account' => $account]);
+        return view(
+            'account::accounts.edit',
+            [
+                'account' => $account,
+            ]
+        );
     }
 
     /**
@@ -86,23 +94,19 @@ class AccountController extends Controller
      * @param Request $request
      * @param Account $account
      *
-     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, Account $account)
     {
         $validatedData = $this->accounts->validateUpdate($request);
 
-        $success = $this->accounts->update($validatedData, $account->id);
+        $result = $this->accounts->update($validatedData, $account->id);
 
-        if ($success) {
-            return redirect()
-                ->route('account.accounts.index')
-                ->with('message', 'Account updated successfuly.');
-        } else {
-            return redirect()
-                ->route('account.accounts.index')
-                ->with('message', 'Failed updating account.');
-        }
+        $success = $result ? true : false;
+
+        return redirect()
+            ->route('account.accounts.index')
+            ->with('message', self::getMessage('update', $success));
     }
 
     /**
@@ -110,20 +114,16 @@ class AccountController extends Controller
      *
      * @param Account $account
      *
-     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Account $account)
     {
-        $success = $this->accounts->delete($account->id);
+        $result = $this->accounts->delete($account->id);
 
-        if ($success) {
-            return redirect()
-                ->route('account.accounts.index')
-                ->with('message', 'Account deleted successfuly.');
-        } else {
-            return redirect()
-                ->route('account.accounts.index')
-                ->with('message', 'Failed deleting account.');
-        }
+        $success = $result ? true : false;
+
+        return redirect()
+            ->route('account.accounts.index')
+            ->with('message', self::getMessage('delete', $success));
     }
 }

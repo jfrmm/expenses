@@ -45,8 +45,10 @@ class AccountRepository extends Repository
         return $request->validate([
             'name' => 'required|string|max:191',
             'iban' => [
-                'required|string|size:25',
-                Rule::unique('accounts')->ignore($request->iban)
+                'required',
+                'string',
+                'size:25',
+                Rule::unique('accounts')->ignore($request->id),
             ],
         ]);
     }

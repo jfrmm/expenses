@@ -20,6 +20,8 @@ class MovementController extends Controller
      */
     public function __construct()
     {
+        parent::$model = new Movement();
+
         $this->movements = new MovementRepository();
     }
 
@@ -28,13 +30,19 @@ class MovementController extends Controller
      *
      * @param Account $account
      *
-     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
+     * @return \Illuminate\View\View
      */
     public function index(Account $account)
     {
         $movements = $this->movements->getAllOfAccount($account->id);
 
-        return view('account::accounts.movements.index', ['account' => $account, 'movements' => $movements]);
+        return view(
+            'account::accounts.movements.index',
+            [
+                'account' => $account,
+                'movements' => $movements,
+            ]
+        );
     }
 
     /**
@@ -42,11 +50,16 @@ class MovementController extends Controller
      *
      * @param Account $account
      *
-     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
+     * @return \Illuminate\View\View
      */
     public function create(Account $account)
     {
-        return view('account::accounts.movements.create', ['account' => $account]);
+        return view(
+            'account::accounts.movements.create',
+            [
+                'account' => $account,
+            ]
+        );
     }
 
     /**
@@ -55,23 +68,24 @@ class MovementController extends Controller
      * @param Request $request
      * @param Account $account
      *
-     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request, Account $account)
     {
         $validatedData = $this->movements->validateCreate($request);
 
-        $success = $this->movements->createForAccount($validatedData, $account);
+        $result = $this->movements->createForAccount($validatedData, $account);
 
-        if ($success) {
-            return redirect()
-                ->route('account.accounts.movements.index', ['account' => $account])
-                ->with('message', 'Movement created successfuly.');
-        } else {
-            return redirect()
-                ->route('account.accounts.movements.index', ['account' => $account])
-                ->with('message', 'Failed creating movement.');
-        }
+        $success = $result ? true : false;
+
+        return redirect()
+            ->route(
+                'account.accounts.movements.index',
+                [
+                    'account' => $account,
+                ]
+            )
+            ->with('message', self::getMessage('update', $success));
     }
 
     /**
@@ -80,11 +94,17 @@ class MovementController extends Controller
      * @param Account $account
      * @param Movement $movement
      *
-     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
+     * @return \Illuminate\View\View
      */
     public function edit(Account $account, Movement $movement)
     {
-        return view('account::accounts.movements.edit', ['account' => $account, 'movement' => $movement]);
+        return view(
+            'account::accounts.movements.edit',
+            [
+                'account' => $account,
+                'movement' => $movement,
+            ]
+        );
     }
 
     /**
@@ -94,23 +114,25 @@ class MovementController extends Controller
      * @param Account $account
      * @param Movement $movement
      *
-     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, Account $account, Movement $movement)
     {
         $validatedData = $this->movements->validateUpdate($request);
 
-        $success = $this->movements->update($validatedData, $movement->id);
+        $result = $this->movements->update($validatedData, $movement->id);
 
-        if ($success) {
-            return redirect()
-                ->route('account.accounts.movements.index', ['account' => $account, 'movement' => $movement])
-                ->with('message', 'Movement updated successfuly.');
-        } else {
-            return redirect()
-                ->route('account.accounts.movements.index', ['account' => $account, 'movement' => $movement])
-                ->with('message', 'Failed updating movement.');
-        }
+        $success = $result ? true : false;
+
+        return redirect()
+            ->route(
+                'account.accounts.movements.index',
+                [
+                    'account' => $account,
+                    'movement' => $movement,
+                ]
+            )
+            ->with('message', self::getMessage('update', $success));
     }
 
     /**
@@ -119,20 +141,21 @@ class MovementController extends Controller
      * @param Account $account
      * @param Movement $movement
      *
-     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Account $account, Movement $movement)
     {
-        $success = $this->movements->delete($movement->id);
+        $result = $this->movements->delete($movement->id);
 
-        if ($success) {
-            return redirect()
-                ->route('account.accounts.movements.index', ['account' => $account])
-                ->with('message', 'Movement deleted successfuly.');
-        } else {
-            return redirect()
-                ->route('account.accounts.movements.index', ['account' => $account])
-                ->with('message', 'Failed deleting movement.');
-        }
+        $success = $result ? true : false;
+
+        return redirect()
+            ->route(
+                'account.accounts.movements.index',
+                [
+                    'account' => $account,
+                ]
+            )
+            ->with('message', self::getMessage('update', $success));
     }
 }

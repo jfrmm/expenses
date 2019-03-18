@@ -5,7 +5,6 @@ namespace Modules\User\Database\Seeders;
 use Illuminate\Database\Seeder;
 use Modules\User\Entities\User;
 use Illuminate\Support\Facades\App;
-use Illuminate\Database\Eloquent\Model;
 
 class UserDatabaseSeeder extends Seeder
 {
@@ -17,7 +16,8 @@ class UserDatabaseSeeder extends Seeder
     public function run()
     {
         if (App::environment(['local'])) {
-            factory(User::class)->create(['email' => 'johnmirra@gmail.com']);
+            factory(User::class)->create(['name' => 'User1', 'email' => 'user1@gmail.com']);
+            factory(User::class)->create(['name' => 'User2', 'email' => 'user2@gmail.com']);
         }
     }
 }

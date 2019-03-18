@@ -39,10 +39,20 @@ class User extends Authenticatable
     ];
 
     /**
-     * A user belongs to many accounts
+     * A User belongs to many Accounts
      */
     public function accounts()
     {
         return $this->belongsToMany(Account::class);
+    }
+
+    /**
+     * A User owns many Accounts
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function accountsOwned()
+    {
+        return $this->hasMany(Account::class, 'owner_id');
     }
 }

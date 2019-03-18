@@ -4,6 +4,7 @@ namespace Modules\Account\Repositories;
 
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Modules\User\Entities\User;
 use App\Repositories\Repository;
 use Illuminate\Support\Facades\Auth;
 use Modules\Account\Entities\Account;
@@ -54,13 +55,22 @@ class AccountRepository extends Repository
     }
 
     /**
-     * Get all Accounts, including Owner
+     * Get all Accounts, including owner
+     *
+     * @param User $user
      *
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
-    public function getAllWithOwner()
+    public function getAllOfUser($user = null)
     {
-        return Account::with('owner')->get();
+        if (is_null($user)) {
+            $user = Auth::user();
+        }
+
+        $userAccounts = $user->accounts()->get();
+        $ownedAccounts = $user->accountsOwned()->get();
+
+        return $userAccounts->merge($ownedAccounts)->all();
     }
 
     /**

@@ -6,7 +6,7 @@ use Modules\User\Entities\User;
 
 $factory->define(Account::class, function (Faker $faker) {
     return [
-        'name' => $faker->name,
+        'name' => $faker->word,
         'iban' => $faker->iban('PT'),
         'owner_id' => User::all()->random()->first(),
     ];

@@ -35,14 +35,16 @@
             <td>{{ $account->owner->name }}</td>
             <td>
                 <div class="btn-group" role="group">
-                    {{-- Edit button --}}
+                    <!-- Edit button -->
                     <a class="btn btn-light btn-sm" role="button" href="{{ route('account.accounts.edit', ['account' => $account]) }}">
                         <i class="fas fa-edit"></i>
-                    </a> {{-- Delete button --}}
+                    </a>
+                    <!-- Delete button -->
                     <button type="button" class="btn btn-light btn-sm" data-toggle="modal" data-target="#deleteModal" data-id="{{ $account->id }}"
                         data-subject="account {{ $account->name }}" data-route="{{ route('account.accounts.destroy', ['account' => $account]) }}">
                         <i class="fas fa-trash"></i>
-                    </button> {{-- Movements button --}}
+                    </button>
+                    <!-- Movements button -->
                     <a class="btn btn-light btn-sm" role="button" href="{{ route('account.accounts.movements.index', ['account' => $account]) }}">
                         <i class="fas fa-chart-bar"></i>
                     </a>

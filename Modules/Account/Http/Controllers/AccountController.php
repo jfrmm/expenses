@@ -31,7 +31,7 @@ class AccountController extends Controller
      */
     public function index()
     {
-        $accounts = $this->accounts->getAllWithOwner();
+        $accounts = $this->accounts->getAllOfUser();
 
         return view(
             'account::accounts.index',

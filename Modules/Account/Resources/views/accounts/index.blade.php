@@ -48,6 +48,10 @@
                     <a class="btn btn-light btn-sm" role="button" href="{{ route('account.accounts.movements.index', ['account' => $account]) }}">
                         <i class="fas fa-chart-bar"></i>
                     </a>
+                    <!-- Users button -->
+                    <a class="btn btn-light btn-sm" role="button" href="{{ route('account.accounts.users.index', ['account' => $account]) }}">
+                        <i class="fas fa-users"></i>
+                    </a>
                 </div>
             </td>
         </tr>

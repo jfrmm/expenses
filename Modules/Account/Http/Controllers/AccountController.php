@@ -19,8 +19,8 @@ class AccountController extends Controller
      */
     public function __construct()
     {
-        parent::$model = new Account();
-
+        $model = new Account();
+        parent::$model = $model;
         $this->accounts = new AccountRepository();
     }
 

@@ -16,4 +16,5 @@ Route::middleware('auth')
     ->group(function () {
         Route::resource('accounts', 'AccountController');
         Route::resource('accounts.movements', 'MovementController');
+        Route::resource('accounts.users', 'UserController');
     });

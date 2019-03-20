@@ -49,7 +49,7 @@ class Repository
      */
     public function update(array $data, $id)
     {
-        $record = $this->model->find($id);
+        $record = $this->getRecordById($id);
 
         return $record->update($data);
     }
@@ -63,8 +63,20 @@ class Repository
      */
     public function delete($id)
     {
-        $record = $this->model->find($id);
+        $record = $this->getRecordById($id);
 
         return $record->delete();
+    }
+
+    /**
+     * Get a record from the database, by id
+     *
+     * @param int $id
+     *
+     * @return Model|Collection|Builder[]|Builder|null
+     */
+    private function getRecordById($id)
+    {
+        return $this->model->find($id);
     }
 }

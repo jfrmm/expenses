@@ -20,8 +20,8 @@ class MovementController extends Controller
      */
     public function __construct()
     {
-        parent::$model = new Movement();
-
+        $model = new Movement();
+        parent::$model = $model;
         $this->movements = new MovementRepository();
     }
 

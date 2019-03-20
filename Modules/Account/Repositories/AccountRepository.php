@@ -55,7 +55,7 @@ class AccountRepository extends Repository
     }
 
     /**
-     * Get all Accounts, including owner
+     * Get all Accounts, including owner, for a given User
      *
      * @param User $user
      *

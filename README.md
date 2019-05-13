@@ -17,7 +17,15 @@ databases:
 
 ## .env
 
-The .env.example is already set Homestead wise. Just don't forget to make the necessary adjustments to your environment (APP_URL, etc)
+You'll have to create a `.env` file with your environment configurations. There's a `.env.example` already set Homestead wise. Just don't forget to make the necessary adjustments to your environment (APP_URL, etc)
+
+## App key
+
+Generate your local secret key
+
+```
+php artisan key:generate
+```
 
 ## Packages
 
@@ -25,14 +33,6 @@ Start with a package dependency check and installation
 
 ```
 composer install
-```
-
-### tymondesigns/jwt-auth
-
-To generate a local JWT key, run
-
-```
-php artisan jwt:secret
 ```
 
 ## Migrate and seed

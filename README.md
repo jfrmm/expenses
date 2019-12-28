@@ -15,11 +15,12 @@ This project aims at providing a way to manage the domestic monetary transaction
 
 ## Docker
 
+> You'll need to install Docker and Docker Compose in your machine
+
 Pull the custom Laradock environment first, go the project root and run
 
 ```
-git submodule init
-git submodule update
+git submodule update --init
 ```
 
 Then `cd` into the folder `laradock` and start the app, with
@@ -28,7 +29,7 @@ Then `cd` into the folder `laradock` and start the app, with
 docker-compose -p expenses up -d
 ```
 
-> Make sure to install Docker and Docker Compose in your machine
+> To pull updates to the environment, run `git submodule update --remote --merge`
 
 ## .env
 

@@ -158,4 +158,16 @@ class MovementController extends Controller
             )
             ->with('message', self::getMessage('update', $success));
     }
+
+    /**
+     * Import movements from an external file to the account
+     *
+     * @param Account $account
+     *
+     * @return void
+     */
+    public function import(Account $account)
+    {
+        // TODO:
+    }
 }

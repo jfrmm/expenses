@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,7 +16,14 @@
 Route::middleware('auth')
     ->name('account.')
     ->group(function () {
+        // Accounts
         Route::resource('accounts', 'AccountController');
+
+        // Account > Movements
+        Route::post('/accounts/{account}/movements/import', 'MovementController@import')
+            ->name('accounts.movements.import');
         Route::resource('accounts.movements', 'MovementController');
+
+        // Account > Users
         Route::resource('accounts.users', 'UserController');
     });

@@ -8,9 +8,18 @@
     <div class="col">
         <div class="d-flex justify-content-end">
             <div class="btn-group" role="group">
-                <a class="btn btn-primary" role="button" href="{{ route('account.accounts.movements.create', ['account' => $account]) }}">
+                <a class="btn btn-primary" role="button"
+                    href="{{ route('account.accounts.movements.create', ['account' => $account]) }}">
                     <i class="fas fa-plus"></i> Add
                 </a>
+                <a class="btn btn-primary" role="button"
+                    href="{{ route('account.accounts.movements.import', ['account' => $account]) }}">
+                    <i class="fas fa-file-import"></i> Import
+                </a>
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#importModal">
+                    Launch demo modal
+                </button>
             </div>
         </div>
     </div>
@@ -36,11 +45,13 @@
             <td>
                 <div class="btn-group" role="group">
                     {{-- Edit button --}}
-                    <a class="btn btn-light btn-sm" role="button" href="{{ route('account.accounts.movements.edit', ['account' => $account, 'movement' => $movement]) }}">
+                    <a class="btn btn-light btn-sm" role="button"
+                        href="{{ route('account.accounts.movements.edit', ['account' => $account, 'movement' => $movement]) }}">
                         <i class="fas fa-edit"></i>
                     </a> {{-- Delete button --}}
-                    <button type="button" class="btn btn-light btn-sm" data-toggle="modal" data-target="#deleteModal" data-id="{{ $movement->id }}"
-                        data-subject="movement {{ $movement->description }}" data-route="{{ route('account.accounts.movements.destroy', ['account' => $account, 'movement' => $movement]) }}">
+                    <button type="button" class="btn btn-light btn-sm" data-toggle="modal" data-target="#deleteModal"
+                        data-id="{{ $movement->id }}" data-subject="movement {{ $movement->description }}"
+                        data-route="{{ route('account.accounts.movements.destroy', ['account' => $account, 'movement' => $movement]) }}">
                         <i class="fas fa-trash"></i>
                     </button>
                 </div>
@@ -52,4 +63,8 @@
 
 <!-- Delete Modal -->
 @component('modals.delete') @endcomponent
+
+<!-- Import Modal -->
+@component('account::accounts.movements.import') @endcomponent
+
 @endsection

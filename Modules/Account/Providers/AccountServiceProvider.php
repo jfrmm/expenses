@@ -8,13 +8,6 @@ use Illuminate\Database\Eloquent\Factory;
 class AccountServiceProvider extends ServiceProvider
 {
     /**
-     * Indicates if loading of the provider is deferred.
-     *
-     * @var bool
-     */
-    protected $defer = false;
-
-    /**
      * Boot the application events.
      *
      * @return void
@@ -25,7 +18,7 @@ class AccountServiceProvider extends ServiceProvider
         $this->registerConfig();
         $this->registerViews();
         $this->registerFactories();
-        $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
+        $this->loadMigrationsFrom(module_path('Account', 'Database/Migrations'));
     }
 
     /**
@@ -46,10 +39,11 @@ class AccountServiceProvider extends ServiceProvider
     protected function registerConfig()
     {
         $this->publishes([
-            __DIR__.'/../Config/config.php' => config_path('account.php'),
+            module_path('Account', 'Config/config.php') => config_path('account.php'),
         ], 'config');
         $this->mergeConfigFrom(
-            __DIR__.'/../Config/config.php', 'account'
+            module_path('Account', 'Config/config.php'),
+            'account'
         );
     }
 
@@ -62,11 +56,11 @@ class AccountServiceProvider extends ServiceProvider
     {
         $viewPath = resource_path('views/modules/account');
 
-        $sourcePath = __DIR__.'/../Resources/views';
+        $sourcePath = module_path('Account', 'Resources/views');
 
         $this->publishes([
             $sourcePath => $viewPath
-        ],'views');
+        ], 'views');
 
         $this->loadViewsFrom(array_merge(array_map(function ($path) {
             return $path . '/modules/account';
@@ -85,19 +79,19 @@ class AccountServiceProvider extends ServiceProvider
         if (is_dir($langPath)) {
             $this->loadTranslationsFrom($langPath, 'account');
         } else {
-            $this->loadTranslationsFrom(__DIR__ .'/../Resources/lang', 'account');
+            $this->loadTranslationsFrom(module_path('Account', 'Resources/lang'), 'account');
         }
     }
 
     /**
      * Register an additional directory of factories.
-     * 
+     *
      * @return void
      */
     public function registerFactories()
     {
-        if (! app()->environment('production')) {
-            app(Factory::class)->load(__DIR__ . '/../Database/factories');
+        if (!app()->environment('production') && $this->app->runningInConsole()) {
+            app(Factory::class)->load(module_path('Account', 'Database/factories'));
         }
     }
 

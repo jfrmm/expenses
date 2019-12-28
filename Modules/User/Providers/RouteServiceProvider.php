@@ -12,7 +12,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    protected $namespace = 'Modules\User\Http\Controllers';
+    protected $moduleNamespace = 'Modules\User\Http\Controllers';
 
     /**
      * Called before routes are registered.
@@ -48,8 +48,8 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapWebRoutes()
     {
         Route::middleware('web')
-            ->namespace($this->namespace)
-            ->group(__DIR__ . '/../Routes/web.php');
+            ->namespace($this->moduleNamespace)
+            ->group(module_path('User', '/Routes/web.php'));
     }
 
     /**
@@ -63,7 +63,7 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::prefix('api')
             ->middleware('api')
-            ->namespace($this->namespace)
-            ->group(__DIR__ . '/../Routes/api.php');
+            ->namespace($this->moduleNamespace)
+            ->group(module_path('User', '/Routes/api.php'));
     }
 }

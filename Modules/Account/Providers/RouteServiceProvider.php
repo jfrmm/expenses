@@ -8,11 +8,11 @@ use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvi
 class RouteServiceProvider extends ServiceProvider
 {
     /**
-     * The root namespace to assume when generating URLs to actions.
+     * The module namespace to assume when generating URLs to actions.
      *
      * @var string
      */
-    protected $namespace = 'Modules\Account\Http\Controllers';
+    protected $moduleNamespace = 'Modules\Account\Http\Controllers';
 
     /**
      * Called before routes are registered.
@@ -48,8 +48,8 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapWebRoutes()
     {
         Route::middleware('web')
-            ->namespace($this->namespace)
-            ->group(__DIR__ . '/../Routes/web.php');
+            ->namespace($this->moduleNamespace)
+            ->group(module_path('Account', '/Routes/web.php'));
     }
 
     /**
@@ -63,7 +63,7 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::prefix('api')
             ->middleware('api')
-            ->namespace($this->namespace)
-            ->group(__DIR__ . '/../Routes/api.php');
+            ->namespace($this->moduleNamespace)
+            ->group(module_path('Account', '/Routes/api.php'));
     }
 }

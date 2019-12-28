@@ -23,11 +23,15 @@ Pull the custom Laradock environment first, go the project root and run
 git submodule update --init
 ```
 
-Then `cd` into the folder `laradock` and start the app, with
+Then `cd` into the folder `laradock` and copy the example `env-example` file to `.env`, and adapt if needed
+
+Finally, start the app, with
 
 ```
-docker-compose -p expenses up -d
+docker-compose -p expenses up -d nginx mysql
 ```
+
+> Add `127.0.0.1 expenses.test` to your OS hosts file, and use that URL to access your app
 
 > To pull updates to the environment, run `git submodule update --remote --merge`
 

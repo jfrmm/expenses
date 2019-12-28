@@ -1,4 +1,4 @@
 [submodule "laradock"]
 	path = laradock
-	url = https://github.com/jfrmm/laradock
+	url = git@github.com:jfrmm/laradock.git
 	branch = projects/expenses

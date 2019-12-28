@@ -10,6 +10,8 @@ This project aims at providing a way to manage the domestic monetary transaction
     -   [App key](#app-key)
     -   [Dependencies](#dependencies)
     -   [Migrate and seed](#migrate-and-seed)
+-   [Development](#development)
+    -   [Compiling assets](#compiling-assets)
 
 # Installation for development
 
@@ -62,6 +64,14 @@ Build and populate the database with some test data, just run
 ```
 php artisan migrate --seed
 ```
+
+# Development
+
+## Compiling assets
+
+For the frontend, run `yarn install` in the first run.
+
+Run `yarn run dev` to compile your assets, like CSS and Javascript.
 
 ---
 

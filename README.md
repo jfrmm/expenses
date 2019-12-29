@@ -57,6 +57,21 @@ php artisan migrate --seed
 
 # Development
 
+## Tooling
+
+### IDE Helper
+
+[IDE Helper](https://github.com/barryvdh/laravel-ide-helper) is a dev dependency that helps with Laravel's Facades autocompletion.
+
+For the first setup, run
+
+```
+php artisan clear-compiled
+php artisan ide-helper:generate
+```
+
+> This will be automatically run at each commit
+
 ## Compiling assets
 
 For the frontend, run `yarn install` in the first run.

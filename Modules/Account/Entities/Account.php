@@ -1,11 +1,12 @@
 <?php
+
 namespace Modules\Account\Entities;
 
 use App\Helpers\DedicatedFiltering\Searchable;
 use App\Helpers\DedicatedFiltering\Sortable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Modules\Account\Entities\Movement;
+use Modules\Account\Entities\Movement\Movement;
 use Modules\User\Entities\User;
 
 class Account extends Model

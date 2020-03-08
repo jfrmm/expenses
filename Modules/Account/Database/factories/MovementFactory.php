@@ -1,7 +1,7 @@
 <?php
 
 use Faker\Generator as Faker;
-use Modules\Account\Entities\Movement;
+use Modules\Account\Entities\Movement\Movement;
 use Modules\User\Entities\User;
 
 $factory->define(Movement::class, function (Faker $faker) {

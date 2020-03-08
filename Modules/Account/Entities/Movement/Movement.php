@@ -1,13 +1,13 @@
 <?php
-namespace Modules\Account\Entities;
 
-use Modules\User\Entities\User;
-use Modules\Account\Entities\Debt;
-use Modules\Account\Entities\Credit;
-use Illuminate\Database\Eloquent\Model;
-use App\Helpers\DedicatedFiltering\Sortable;
-use Illuminate\Database\Eloquent\SoftDeletes;
+namespace Modules\Account\Entities\Movement;
+
 use App\Helpers\DedicatedFiltering\Searchable;
+use App\Helpers\DedicatedFiltering\Sortable;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Account\Entities\Account;
+use Modules\User\Entities\User;
 
 class Movement extends Model
 {
@@ -36,6 +36,9 @@ class Movement extends Model
         'description',
     ];
 
+    /**
+     * @return void
+     */
     public static function boot()
     {
         parent::boot();
@@ -51,8 +54,10 @@ class Movement extends Model
 
         static::updated(function ($model) {
             // update a Debt or Credit, depending on the Movement amount
-            if ($model->amount !== $model->getOriginal('amount') &&
-                 $model->amount * $model->getOriginal('amount') < 0) {
+            if (
+                $model->amount !== $model->getOriginal('amount') &&
+                $model->amount * $model->getOriginal('amount') < 0
+            ) {
                 if ($model->amount < 0) {
                     Credit::where('movement_id', $model->id)->delete();
                     Debt::create(['movement_id' => $model->id]);
@@ -75,6 +80,8 @@ class Movement extends Model
 
     /**
      * A Movement belongs to one account
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function account()
     {
@@ -83,6 +90,8 @@ class Movement extends Model
 
     /**
      * The Movement's creator
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function creator()
     {
@@ -91,6 +100,8 @@ class Movement extends Model
 
     /**
      * The Movement's creditor
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function creditor()
     {

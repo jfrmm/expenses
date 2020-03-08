@@ -4,7 +4,7 @@ namespace Modules\Account\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Modules\Account\Entities\Account;
-use Modules\Account\Entities\Movement;
+use Modules\Account\Entities\Movement\Movement;
 
 class AccountDatabaseSeeder extends Seeder
 {

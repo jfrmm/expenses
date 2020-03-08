@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Account\Entities;
+namespace Modules\Account\Entities\Movement;
 
 use Illuminate\Database\Eloquent\Model;
 

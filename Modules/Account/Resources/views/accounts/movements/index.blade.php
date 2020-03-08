@@ -14,12 +14,11 @@
                 </a>
                 <a class="btn btn-primary" role="button"
                     href="{{ route('account.accounts.movements.import', ['account' => $account]) }}">
-                    <i class="fas fa-file-import"></i> Import
+                    <i class="fas fa-plus"></i> Import
                 </a>
-                <!-- Button trigger modal -->
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#importModal">
-                    Launch demo modal
-                </button>
+                {{-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#importModal">
+                    Import
+                </button> --}}
             </div>
         </div>
     </div>
@@ -65,6 +64,6 @@
 @component('modals.delete') @endcomponent
 
 <!-- Import Modal -->
-@component('account::accounts.movements.import') @endcomponent
+{{-- @component('account::accounts.movements.import') @endcomponent --}}
 
 @endsection

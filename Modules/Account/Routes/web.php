@@ -18,6 +18,8 @@ Route::middleware('auth')
         Route::resource('accounts', 'AccountController');
 
         // Account > Movements
+        Route::get('/accounts/{account}/movements/import', 'MovementController@uploadImport')
+            ->name('accounts.movements.upload-import');
         Route::post('/accounts/{account}/movements/import', 'MovementController@import')
             ->name('accounts.movements.import');
         Route::resource('accounts.movements', 'MovementController');

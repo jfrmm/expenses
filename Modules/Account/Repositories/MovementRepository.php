@@ -2,11 +2,14 @@
 
 namespace Modules\Account\Repositories;
 
-use Illuminate\Http\Request;
 use App\Repositories\Repository;
+use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 use Modules\Account\Entities\Account;
-use Modules\Account\Entities\Movement;
+use Modules\Account\Entities\Movement\Movement;
+use Modules\Account\Entities\Movement\MovementImport;
 
 class MovementRepository extends Repository
 {
@@ -57,7 +60,7 @@ class MovementRepository extends Repository
      *
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
-    public function getAllOfAccount($accountId)
+    public function getAllOfAccount(int $accountId)
     {
         return Movement::whereHas('account', function ($query) use ($accountId) {
             $query->where('id', $accountId);
@@ -67,7 +70,7 @@ class MovementRepository extends Repository
     /**
      * Create a Movement, for a specific Account
      *
-     * @param array $data
+     * @param array   $data
      * @param Account $account
      *
      * @return mixed
@@ -82,5 +85,33 @@ class MovementRepository extends Repository
         $data = array_merge($data, $extraData);
 
         return parent::create($data);
+    }
+
+    /**
+     * Import Movements, for a specific Account
+     *
+     * @param Account $account
+     *
+     * @return bool
+     */
+    public function importForAccount(Request $request, Account $account): bool
+    {
+        try {
+            $file = $request->file('movements');
+
+            if (!is_null($file) && $file->isValid()) {
+                Excel::import(
+                    new MovementImport($account->id, Auth::id()),
+                    $file,
+                    \Maatwebsite\Excel\Excel::CSV
+                );
+
+                return true;
+            }
+
+            return false;
+        } catch (Exception $exception) {
+            throw $exception;
+        }
     }
 }

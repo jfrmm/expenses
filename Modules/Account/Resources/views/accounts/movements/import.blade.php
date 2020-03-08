@@ -1,20 +1,26 @@
-<div class="modal fade" id="importModal" tabindex="-1" role="dialog" aria-labelledby="importModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="importModalLabel">Import movements</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                ...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Import</button>
-            </div>
-        </div>
+@extends('layouts.app')
+@section('content')
+<h1>Movements - Import</h1>
+
+<div class="form">
+    {!! Form::open(
+    ['route' => ['account.accounts.movements.import', $account],
+    'method' => 'post',
+    'files' => true]
+    )
+    !!}
+    {!! Form::token() !!}
+
+    <div class="form-group">
+        {!! Form::label('movements', 'Movements CSV file') !!}
+        {!! Form::file('movements') !!}
     </div>
+
+    <div class="form__errors">
+        @component('alerts.errors') @endcomponent
+    </div>
+
+    {!! Form::submit('Import', ['class' => 'btn btn-primary']) !!}
+    {!! Form::close() !!}
 </div>
+@endsection

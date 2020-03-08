@@ -2,10 +2,10 @@
 
 namespace Modules\Account\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Modules\Account\Entities\Account;
-use Modules\Account\Entities\Movement;
+use Modules\Account\Entities\Movement\Movement;
 use Modules\Account\Repositories\MovementRepository;
 
 class MovementController extends Controller
@@ -160,14 +160,43 @@ class MovementController extends Controller
     }
 
     /**
-     * Import movements from an external file to the account
+     * Show the form for importing a new resource.
      *
      * @param Account $account
      *
-     * @return void
+     * @return \Illuminate\View\View
      */
-    public function import(Account $account)
+    public function uploadImport(Account $account)
     {
-        // TODO:
+        return view(
+            'account::accounts.movements.import',
+            [
+                'account' => $account,
+            ]
+        );
+    }
+
+    /**
+     * Import resources from a file.
+     *
+     * @param Request $request
+     * @param Account $account
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function import(Request $request, Account $account)
+    {
+        $result = $this->movements->importForAccount($request, $account);
+
+        $success = $result ? true : false;
+
+        return redirect()
+            ->route(
+                'account.accounts.movements.index',
+                [
+                    'account' => $account,
+                ]
+            )
+            ->with('message', self::getMessage('import', $success));
     }
 }

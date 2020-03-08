@@ -1,10 +1,8 @@
 <?php
 
-namespace Modules\Account\Entities;
+namespace Modules\Account\Entities\Movement;
 
 use Illuminate\Database\Eloquent\Model;
-
-use Modules\Account\Entities\DebtType;
 
 class Debt extends Model
 {

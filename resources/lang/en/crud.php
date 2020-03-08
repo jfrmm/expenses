@@ -17,4 +17,8 @@ return [
         'success' => ':Model deleted successfully.',
         'error' => 'Failed deleting :model.',
     ],
+    'import' => [
+        'success' => ':Model imported successfully.',
+        'error' => 'Failed importing :model.',
+    ],
 ];

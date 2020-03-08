@@ -7,8 +7,8 @@ This project aims at providing a way to manage the domestic monetary transaction
 -   [Installation for development](#installation-for-development)
     -   [Docker](#docker)
     -   [.env](#.env)
-    -   [App key](#app-key)
     -   [Dependencies](#dependencies)
+    -   [App key](#app-key)
     -   [Migrate and seed](#migrate-and-seed)
 
 # Installation for development
@@ -35,17 +35,17 @@ docker-compose -p expenses up -d nginx mysql
 
 > To pull updates to the environment, run `git submodule update --remote --merge`
 
+To enter the development container, run
+
+```
+docker-compose -p expenses exec workspace bash
+```
+
+> Alternatively, you can use the provided `docker` commands available in `package.json`
+
 ## .env
 
 You'll have to create a `.env` file with your environment configurations. There's a `.env.dev.example` with default settings. Just don't forget to make the necessary adjustments to your environment (APP_URL, etc).
-
-## App key
-
-Generate your local secret key
-
-```
-php artisan key:generate
-```
 
 ## Dependencies
 
@@ -53,6 +53,14 @@ Start with a package dependency check and installation
 
 ```
 composer install
+```
+
+## App key
+
+Generate your local secret key
+
+```
+php artisan key:generate
 ```
 
 ## Migrate and seed
